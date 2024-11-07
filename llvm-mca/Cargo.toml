@@ -1,0 +1,11 @@
+[package]
+name = "llvm-mca"
+description = "Macros for generating `llvm-mca` marker comments"
+version = "0.1.0"
+edition = "2021"
+authors = ["Phil Turnbull <philip.turnbull@gmail.com>"]
+repository = "https://github.com/philipturnbull/llvm-mca"
+homepage = "https://github.com/philipturnbull/llvm-mca"
+license = "MIT OR Apache-2.0"
+keywords = ["llvm"]
+categories = ["development-tools::profiling"]

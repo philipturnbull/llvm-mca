@@ -1,0 +1,6 @@
+[workspace]
+resolver = "2"
+members = [
+  "llvm-mca",
+  "llvm-mca-macros"
+]
