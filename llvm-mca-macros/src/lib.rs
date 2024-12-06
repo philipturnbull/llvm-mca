@@ -88,9 +88,12 @@ pub fn llvm_mca(attrs: TokenStream, input: TokenStream) -> TokenStream {
     let function = match syn::parse(input) {
         Ok(Item::Fn(function)) => function,
         _ => {
-            return syn::Error::new(Span::call_site().into(), "expected function")
-                .to_compile_error()
-                .into()
+            return syn::Error::new(
+                Span::call_site().into(),
+                "`llvm_mca` can only be applied to functions",
+            )
+            .to_compile_error()
+            .into()
         }
     };
 
