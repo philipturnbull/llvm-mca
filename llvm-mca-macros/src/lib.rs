@@ -98,22 +98,28 @@ pub fn llvm_mca(attrs: TokenStream, input: TokenStream) -> TokenStream {
     };
 
     // Take the original block and wedge it between the two markers. By default,
-    //
     // `rustc` assumes that an `asm!(..)` block requires a stack frame so it
     // includes stack-frame setup/teardown in the function prologue/epilogue. We
-    // can avoid this by adding the `options(nostack)` attribute to the
-    // `asm!(..)` block.
+    // can avoid this by adding the `nostack` attribute to the `asm!(..)` block.
     //
-    //Use the `options(nostack)` attribute to prevent this
+    // Similarly, `rustc` assumes that an `asm!(..)` block can read/write memory
+    // and affect processor flags, so we specify the `nomem` and `preserve_flags`
+    // attributes too.
     let original_block = function.block;
     let block = syn::parse(
         quote! {{
             unsafe {
-                std::arch::asm!(";# LLVM-MCA-BEGIN", options(nostack));
+                std::arch::asm!(
+                    ";# LLVM-MCA-BEGIN",
+                    options(nostack, nomem, preserves_flags)
+                );
             }
             let ret = #original_block;
             unsafe {
-                std::arch::asm!(";# LLVM-MCA-END", options(nostack));
+                std::arch::asm!(
+                    ";# LLVM-MCA-END",
+                    options(nostack, nomem, preserves_flags)
+                );
             }
             ret
         }}

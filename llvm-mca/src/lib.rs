@@ -16,12 +16,18 @@
 macro_rules! llvm_mca_begin {
     () => {
         unsafe {
-            std::arch::asm!(";# LLVM-MCA-BEGIN", options(nostack));
+            std::arch::asm!(
+                ";# LLVM-MCA-BEGIN",
+                options(nostack, nomem, preserves_flags)
+            );
         }
     };
     ($name:literal) => {
         unsafe {
-            std::arch::asm!(concat!(";# LLVM-MCA-BEGIN ", $name), options(nostack));
+            std::arch::asm!(
+                concat!(";# LLVM-MCA-BEGIN ", $name),
+                options(nostack, nomem, preserves_flags)
+            );
         }
     };
 }
@@ -41,12 +47,18 @@ macro_rules! llvm_mca_begin {
 macro_rules! llvm_mca_end {
     () => {
         unsafe {
-            std::arch::asm!(concat!(";# LLVM-MCA-END"), options(nostack));
+            std::arch::asm!(
+                concat!(";# LLVM-MCA-END"),
+                options(nostack, nomem, preserves_flags)
+            );
         }
     };
     ($name:literal) => {
         unsafe {
-            std::arch::asm!(concat!(";# LLVM-MCA-END ", $name), options(nostack));
+            std::arch::asm!(
+                concat!(";# LLVM-MCA-END ", $name),
+                options(nostack, nomem, preserves_flags)
+            );
         }
     };
 }
